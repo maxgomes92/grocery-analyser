@@ -54,12 +54,32 @@ function extractProducts (lines) {
     return true
   })
 
-  return products.map(productLine => {
-    const [_, label, price] = new RegExp(/(.+)\s(-?\d+,\d+)/).exec(productLine.trim())
+  let skipNext = false
+  return products.map((productLine, i) => {
+    // let label, price, weight, pricePerWeight
+    if (skipNext) {
+      skipNext = false
+      return null
+    }
 
-    return {
-      label: label.trim(),
-      price: parseFloat(price.replace(',', '.')),
+    try {
+      const [_, label, price] = new RegExp(/(.+)\s(-?\d+,\d+)/).exec(productLine.trim())
+
+      return {
+        label: label.trim(),
+        price: parseFloat(price.replace(',', '.')),
+      }
+    } catch (err) {
+      const label = productLine.trim()
+      const [_, weight, pricePerWeight, price] = new RegExp(/(\d+,\d+)kg\*(\d+,\d+)kr\/kg\s+(-?\d+,\d+)/).exec(products[i+1].trim())
+      skipNext = true
+
+      return {
+        label: label.trim(),
+        price: parseFloat(price.replace(',', '.')),
+        weight: parseFloat(weight.replace(',', '.')),
+        pricePerWeight: parseFloat(pricePerWeight.replace(',', '.')),
+      }
     }
   }).filter((o) => o)
 }
@@ -87,6 +107,7 @@ module.exports = async function extractInformation () {
 
   let receipts = []
   for (let file of files) {
+    console.log('File', file)
     const receipt = await readReceipt(file)
     receipts.push(receipt)
   }

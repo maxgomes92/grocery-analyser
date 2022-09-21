@@ -10,10 +10,6 @@ function App() {
         <Card style={{ height: 500, width: 800 }}>
           <TotalChart data={totalData} lines={["total"]} />
         </Card>
-
-        <Card style={{ height: 500, width: 800 }}>
-          <TotalChart data={totalData} lines={["total"]} />
-        </Card>
       </div>
     </div>
   );
