@@ -82,7 +82,7 @@ async function readReceipt (filename) {
   }
 }
 
-(async function () {
+module.exports = async function extractInformation () {
   const files = getFiles()
 
   let receipts = []
@@ -91,6 +91,5 @@ async function readReceipt (filename) {
     receipts.push(receipt)
   }
 
-  console.log(receipts[0])
-  console.log(receipts[1])
-})()
+  return receipts
+}
