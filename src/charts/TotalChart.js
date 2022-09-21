@@ -25,7 +25,7 @@ export default function TotalChart({ lines, data }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="xLabel" />
         <YAxis />
         <Tooltip />
         <Legend />

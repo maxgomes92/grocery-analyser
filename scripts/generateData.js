@@ -7,13 +7,13 @@ function generateTotalChart (receipts) {
       acc[cur.date] = {}
     }
     
-    acc[cur.date].name = cur.date
+    acc[cur.date].xLabel = cur.date
     acc[cur.date].total = acc[cur.date].total ? acc[cur.date].total + cur.total : cur.total
 
     return acc
   }, {})
 
-  fs.writeFileSync('./data/total.json', JSON.stringify(Object.values(data), null, 4))
+  fs.writeFileSync('./src/data/total.json', JSON.stringify(Object.values(data), null, 4))
 }
 
 (async () => {
